@@ -1,0 +1,31 @@
+import * as React from 'react'
+import { observer, inject } from 'mobx-react'
+import { withRouter } from 'react-router'
+import { ContentContainer } from 'components'
+import { {{modelName}}Store } from 'stores'
+import {{modelName}}ListTable from './table'
+
+interface I{{modelName}}List {
+  {{lowercase modelName}}Store?: {{modelName}}Store,
+  history: any,
+}
+
+@withRouter
+@inject('{{lowercase modelName}}Store')
+@observer
+class {{modelName}}List extends React.Component<I{{modelName}}List, any> {
+
+  handleEdit = (row) => {
+    this.props.{{lowercase modelName}}Store.initializeForm(row)
+    this.props.history.push(`/{{lowercase modelName}}/${row._id}`)
+  }
+
+  render() {
+    return (
+      <ContentContainer>
+        <{{modelName}}ListTable onEdit={this.handleEdit}/>
+      </ContentContainer>)
+  }
+}
+
+export default {{modelName}}List

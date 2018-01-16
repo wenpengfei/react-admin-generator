@@ -1,0 +1,98 @@
+import * as React from 'react'
+import { Form, Input, Button, message } from 'antd'
+import { observer, inject } from 'mobx-react'
+import { FormComponentProps } from 'antd/lib/form'
+
+import { {{modelName}}Store } from 'stores'
+
+const FormItem = Form.Item
+
+const formItemLayout = {
+  labelCol: { span: 2 },
+  wrapperCol: { span: 8 },
+}
+
+const formButtonLayout = {
+  wrapperCol: { offset: 2 },
+}
+
+const rules = {
+{{#each properties}}
+  {{name}}: [{ required: true, message: '请填写{{displayName}}' }],
+{{/each}}
+}
+
+interface I{{modelName}}Form {
+  isEdit?: boolean,
+  {{lowercase modelName}}Store?: {{modelName}}Store,
+  onSubmitSuccess?: () => any,
+  onSubmitFailure?: (error: any) => any,
+  initialValue?: any,
+}
+
+@inject('{{lowercase modelName}}Store')
+@observer
+class {{modelName}}Form extends React.Component<I{{modelName}}Form & FormComponentProps, any> {
+  static defaultProps = {
+    isEdit: false,
+  }
+
+  state = {
+    submiting: false,
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { onSubmitSuccess, onSubmitFailure, isEdit, initialValue } = this.props
+        this.setState({ submiting: true }, async() => {
+          try {
+            await (isEdit ? this.props.{{lowercase modelName}}Store.edit(initialValue._id, values) : this.props.{{lowercase modelName}}Store.add(values))
+            this.setState({ submiting: false }, () => {
+              message.success(`${isEdit ? '修改' : '新增'}成功`)
+              onSubmitSuccess && onSubmitSuccess()
+            })
+          } catch (error) {
+            this.setState({ submiting: false }, () => {
+              onSubmitFailure && onSubmitFailure(error)
+            })
+          }
+        })
+      }
+    })
+  }
+
+  handleResetClick = () => {
+    this.props.form.resetFields()
+  }
+
+  render() {
+    const { getFieldDecorator } = this.props.form
+    const {
+       {{#each properties}}
+       {{name}} = '',
+       {{/each}}
+    } = this.props.initialValue || {}
+
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        {{#each properties}}
+        <FormItem {...formItemLayout} label="{{displayName}}" hasFeedback>
+          {getFieldDecorator('{{name}}', { rules: rules.{{name}}, initialValue: {{name}} })(
+            <Input placeholder="{{displayName}}" />,
+          )}
+        </FormItem>
+        {{/each}}
+        <FormItem {...formButtonLayout}>
+          <Button loading={this.state.submiting} type="primary" htmlType="submit">提交</Button>
+          <Button style=\{{ marginLeft: 8 }} onClick={this.handleResetClick} >重置</Button>
+        </FormItem>
+      </Form>
+    )
+  }
+}
+
+const Wrapped{{modelName}}Form = Form.create()({{modelName}}Form)
+
+export default Wrapped{{modelName}}Form

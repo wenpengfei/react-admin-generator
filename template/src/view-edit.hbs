@@ -1,0 +1,29 @@
+import * as React from 'react'
+import { observer, inject } from 'mobx-react'
+import { {{modelName}}Store } from 'stores'
+import { ContentContainer } from 'components'
+import {{modelName}}Form from './form'
+
+interface I{{modelName}}Edit {
+  {{lowercase modelName}}Store?: {{modelName}}Store,
+  history: any,
+}
+
+@inject('{{lowercase modelName}}Store')
+@observer
+class {{modelName}}Edit extends React.Component<I{{modelName}}Edit, any> {
+
+  handleSubmitSuccess = () => {
+    this.props.history.push('/{{lowercase modelName}}/list')
+  }
+
+  render() {
+    const { {{lowercase modelName}}Store: { initialFormValue } } = this.props
+    return (
+      <ContentContainer>
+        <{{modelName}}Form isEdit={true} initialValue={initialFormValue} onSubmitSuccess={this.handleSubmitSuccess} />
+      </ContentContainer>)
+  }
+}
+
+export default {{modelName}}Edit

@@ -1,0 +1,5 @@
+export { default as UserService } from './user'
+export { default as MemberService } from './member'
+{{#each this}}
+export { default as {{modelName}}Service } from './{{lowercase modelName}}'
+{{/each}}

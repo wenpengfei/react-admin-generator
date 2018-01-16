@@ -1,0 +1,35 @@
+import MemberStore from './member'
+import UserStore from './user'
+import AppStore from './app/index'
+{{#each this}}
+import {{modelName}}Store from './{{lowercase modelName}}'
+{{/each}}
+
+class RootStore {
+  memberStore: MemberStore
+  userStore: UserStore
+  appStore: AppStore
+  {{#each this}}
+  {{lowercase modelName}}Store: {{modelName}}Store
+  {{/each}}
+
+  constructor() {
+    this.memberStore = new MemberStore()
+    this.userStore = new UserStore()
+    this.appStore = new AppStore()
+    {{#each this}}
+    this.{{lowercase modelName}}Store = new {{modelName}}Store()
+    {{/each}}
+  }
+}
+
+export default new RootStore()
+
+export { 
+  MemberStore,
+  UserStore,
+  AppStore,
+  {{#each this}}
+  {{modelName}}Store,
+ {{/each}}
+}

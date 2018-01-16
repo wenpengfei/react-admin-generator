@@ -1,0 +1,20 @@
+import * as React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import {{modelName}}List from './list'
+import {{modelName}}Add from './add'
+import {{modelName}}Edit from './edit'
+
+class {{modelName}} extends React.Component<any, any> {
+  render() {
+    const { match: { url: matchedUrl } } = this.props
+    return (
+      <Switch>
+        <Route key="{{lowercase modelName}}.list" path={`${matchedUrl}/list`} component={{wapperContent modelName "List"}} />
+        <Route key="{{lowercase modelName}}.add" path={`${matchedUrl}/add`} component={{wapperContent modelName "Add"}} />
+        <Route key="{{lowercase modelName}}.edit" path={`${matchedUrl}/:id`} component={{wapperContent modelName "Edit"}} />
+      </Switch>
+    )
+  }
+}
+
+export default {{modelName}}

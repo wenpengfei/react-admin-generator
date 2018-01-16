@@ -1,0 +1,32 @@
+{
+  "name": "react-admin-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "commander": "^2.12.2",
+    "handlebars": "^4.0.11",
+    "handlebars-helpers": "^0.10.0",
+    "jstransformer-handlebars": "^1.0.0",
+    "kopy": "^8.2.3",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:wenpengfei/react-admin-generator.git"
+  },
+  "bin": {
+    "create-react-admin": "bin/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wenpengfei/react-admin-generator/issues"
+  },
+  "homepage": "https://github.com/wenpengfei/react-admin-generator#README"
+}

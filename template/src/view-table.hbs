@@ -1,0 +1,82 @@
+import * as React from 'react'
+import { toJS } from 'mobx'
+import { observer, inject } from 'mobx-react'
+import { Table, Divider, Popconfirm, message } from 'antd'
+import { {{modelName}}Store } from 'stores'
+
+interface I{{modelName}}ListTable {
+  {{lowercase modelName}}Store?: {{modelName}}Store,
+  history?: any,
+  onEdit?: (row: any) => void,
+}
+
+@inject('{{lowercase modelName}}Store')
+@observer
+class {{modelName}}ListTable extends React.Component<I{{modelName}}ListTable, any> {
+  componentDidMount() {
+    this.props.{{lowercase modelName}}Store.getPageList({ pageIndex: 1 })
+  }
+
+  handlePageChange = (pageIndex, pageSize) => {
+    this.props.{{lowercase modelName}}Store.getPageList({ pageIndex, pageSize })
+  }
+
+  handleEdit = (row) => {
+    this.props.onEdit(row)
+  }
+
+  handleDelete = (form) => {
+    try {
+      this.props.{{lowercase modelName}}Store.remove(form._id)
+      message.success('删除成功')
+    } catch (error) {
+      message.error(error)
+    }
+  }
+
+  bindRowkey = (row) => row._id
+
+  render() {
+    const { list, loading, totalCount, pageIndex, pageSize } = this.props.{{lowercase modelName}}Store
+    const pagination = {
+      onChange: this.handlePageChange,
+      onShowSizeChange: this.handlePageChange,
+      total: totalCount,
+      current: pageIndex,
+      showSizeChanger: true,
+      pageSize,
+    }
+    const columns = [{
+    {{#each properties}}
+      title: '{{displayName}}',
+      dataIndex: '{{name}}',
+      key: '{{name}}',
+    }, {
+    {{/each}}
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <span>
+          <Popconfirm title="操作不可逆，确认删除?" onConfirm={this.handleDelete.bind(this, record)} okType="danger" okText="确认" cancelText="取消">
+            <a>删除</a>
+          </Popconfirm>
+          <Divider type="vertical" />
+          <a onClick={this.handleEdit.bind(this, record)}>编辑</a>
+        </span>
+      ),
+    }]
+
+    return (
+      <div>
+        <Table
+          pagination={pagination}
+          rowKey={this.bindRowkey}
+          columns={columns}
+          loading={loading}
+          dataSource={toJS(list)}
+        />
+      </div>)
+  }
+}
+
+export default {{modelName}}ListTable

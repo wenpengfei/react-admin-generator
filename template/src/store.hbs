@@ -1,0 +1,8 @@
+import BaseStore from '../base'
+import { {{modelName}}Service } from 'service'
+
+export default class {{modelName}}Store extends BaseStore {
+  constructor() {
+    super(new {{modelName}}Service())
+  }
+}

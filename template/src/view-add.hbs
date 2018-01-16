@@ -1,0 +1,23 @@
+import * as React from 'react'
+import { ContentContainer } from 'components'
+import {{modelName}}Form from './form'
+
+interface I{{modelName}}Add {
+  history: any,
+}
+
+class {{modelName}}Add extends React.Component<I{{modelName}}Add, any> {
+
+  handleSubmitSuccess = () => {
+    this.props.history.push('/{{lowercase modelName}}/list')
+  }
+
+  render() {
+    return (
+      <ContentContainer>
+        <{{modelName}}Form onSubmitSuccess={this.handleSubmitSuccess}/>
+      </ContentContainer>)
+  }
+}
+
+export default {{modelName}}Add
