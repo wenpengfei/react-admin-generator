@@ -1,5 +1,7 @@
 # react-admin-generator
 
+A generator for https://github.com/wenpengfei/parcel-typescript-react-boilerplate
+
 ## Install
 
 `yarn global add react-admin-generator` or `npm install -g react-admin-generator`
@@ -60,7 +62,7 @@ module.exports = [
 │   ├── assets                       # 资源文件
 │   │   └── logo.svg
 │   ├── components                   # 组件目录
-│   │   ├── content-container        # 页面container，定义了淡入动画
+│   │   ├── content-container        # 页面container
 │   │   │   └── index.tsx   
 │   │   ├── index.tsx                # components 入口文件
 │   │   ├── layout                   # 布局页
